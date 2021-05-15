@@ -18,33 +18,38 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 
 @Controller
-public class HomeController {
+public class CredentialController {
 
    private FileService fileService;
    private UserService userService;
    private NoteService noteService;
    private CredentialService credentialService;
 
-   public HomeController(FileService fileService, UserService userService, NoteService noteService, CredentialService credentialService) {
+   public CredentialController(FileService fileService, UserService userService, NoteService noteService, CredentialService credentialService) {
       this.fileService = fileService;
       this.userService = userService;
       this.noteService = noteService;
       this.credentialService = credentialService;
    }
 
-   @GetMapping
-   @RequestMapping("/home")
-   public String getHome(File file,
-                         Note note,
-                         Credential credential,
-                         Authentication authentication,
-                         Model model){
 
+
+   @PostMapping
+   @RequestMapping("/credential")
+   public String uploadFile(@ModelAttribute("credential") Credential credentialInput, Authentication authentication, Model model) throws IOException {
       String username = authentication.getName();
       Integer userid = userService.getIdByUsername(username);
+
+      String c_url = credentialInput.getUrl();
+      String c_username = credentialInput.getUsername();
+      String c_password = credentialInput.getPassword();
+      credentialInput.setUserid(userid);
+      //Credential credential = new Credential(null, filename, contenttype, filesize, userid, fis);
+      System.out.println("point 1 credential: " +credentialInput.toString());
+      credentialService.createCredential(credentialInput);
+      System.out.println("credential created: " + credentialInput.toString());
 
       model.addAttribute("users", this.userService.getUserById(userid));
       model.addAttribute("files", this.fileService.getFilesByUserId(userid));
@@ -53,22 +58,6 @@ public class HomeController {
 
       return "home";
    }
-/*
-   @PostMapping
-   @RequestMapping("/file-upload")
-   public String uploadFile(@ModelAttribute("file") MultipartFile fileInput, Authentication authentication, Model model) throws IOException {
-      String username = authentication.getName();
-      Integer userid = userService.getIdByUsername(username);
-
-      String filename = fileInput.getName();
-      String contenttype = fileInput.getContentType();
-      String filesize = Long.toString(fileInput.getSize());
-      InputStream fis = fileInput.getInputStream();
-
-      File file = new File(null, filename, contenttype, filesize, userid, fis);
-      fileService.createFile(file);
-      return "home";
-   }*/
    /*
    @PostMapping
    @RequestMapping("/file-download")

@@ -6,16 +6,17 @@ import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
+@Mapper
 public interface NoteMapper {
 
    @Select("SELECT * FROM NOTES")
    public List <Note> getNote();
 
    @Select("SELECT * FROM NOTES WHERE noteid=#{noteid}")
-   public User getNoteById(Integer noteid);
+   public Note getNoteById(Integer noteid);
 
    @Select("SELECT * FROM NOTES WHERE userid=#{userid}")
-   public User getNoteByUserId(Integer userid);
+   public List<Note> getNoteByUserId(Integer userid);
 
    @Insert("INSERT INTO NOTES (notetitle, notedescription, userid) " +
            "VALUES (#{notetitle}, #{notedescription}, #{userid})")

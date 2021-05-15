@@ -4,15 +4,15 @@ import java.util.Objects;
 
 public class User {
 
-   private Integer userId;
+   private Integer userid;
    private String username;
    private String salt; //check if this should be an array
    private String password;
    private String firstname;
    private String lastname;
 
-   public User(Integer userId, String username, String salt, String password, String firstname, String lastname) {
-      this.userId = userId;
+   public User(Integer userid, String username, String salt, String password, String firstname, String lastname) {
+      this.userid = userid;
       this.username = username;
       this.salt = salt;
       this.password = password;
@@ -20,12 +20,12 @@ public class User {
       this.lastname = lastname;
    }
 
-   public Integer getUserId() {
-      return userId;
+   public Integer getUserid() {
+      return userid;
    }
 
-   public void setUserId(Integer userId) {
-      this.userId = userId;
+   public void setUserid(Integer userid) {
+      this.userid = userid;
    }
 
    public String getUsername() {
@@ -73,18 +73,18 @@ public class User {
       if (this == o) return true;
       if (!(o instanceof User)) return false;
       User user = (User) o;
-      return userId.equals(user.userId) && Objects.equals(username, user.username) && Objects.equals(salt, user.salt) && Objects.equals(password, user.password) && Objects.equals(firstname, user.firstname) && Objects.equals(lastname, user.lastname);
+      return userid.equals(user.userid) && Objects.equals(username, user.username) && Objects.equals(salt, user.salt) && Objects.equals(password, user.password) && Objects.equals(firstname, user.firstname) && Objects.equals(lastname, user.lastname);
    }
 
    @Override
    public int hashCode() {
-      return Objects.hash(userId, username, salt, password, firstname, lastname);
+      return Objects.hash(userid, username, salt, password, firstname, lastname);
    }
 
    @Override
    public String toString() {
       return "User{" +
-              "userId=" + userId +
+              "userid=" + userid +
               ", username='" + username + '\'' +
               ", salt='" + salt + '\'' +
               ", password='" + password + '\'' +

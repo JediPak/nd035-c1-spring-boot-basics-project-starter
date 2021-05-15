@@ -7,16 +7,17 @@ import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
+@Mapper
 public interface FileMapper {
 
    @Select("SELECT * FROM FILES")
    public List <File> getFile();
 
    @Select("SELECT * FROM FILES WHERE fileId=#{fileId}")
-   public User getFileById(Integer fileId);
+   public File getFileById(Integer fileId);
 
    @Select("SELECT * FROM FILES WHERE userid=#{userid}")
-   public User getFileByUserId(Integer userid);
+   public List<File> getFileByUserId(Integer userid);
 
    @Insert("INSERT INTO FILES (filename, contenttype, filesize, userid, filedata) " +
            "VALUES (#{filename}, #{contenttype}, #{filesize}, #{userid}, #{filedata})")

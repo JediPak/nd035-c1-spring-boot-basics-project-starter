@@ -10,11 +10,13 @@
     </head>
     <body class="p-3 mb-2 bg-light text-black">
         <div class="container">
+
             <div id="logoutDiv">
                 <form action="#" method="POST">
                     <button type="submit" class="btn btn-secondary float-right">Logout</button>
                 </form>
             </div>
+
             <div id="contentDiv" style="clear: right;">
                 <nav style="clear: right;">
                     <div class="nav nav-tabs" id="nav-tab" role="tablist">
@@ -23,9 +25,11 @@
                         <a class="nav-item nav-link" id="nav-credentials-tab" data-toggle="tab" href="#nav-credentials" role="tab" aria-controls="nav-credentials" aria-selected="false">Credentials</a>
                     </div>
                 </nav>
+
                 <div class="tab-content" id="nav-tabContent">
+                    <!--File-->
                     <div class="tab-pane fade show active" id="nav-files" role="tabpanel" aria-labelledby="nav-files-tab">
-                        <form action="#" enctype="multipart/form-data" method="POST">
+                        <form action="#" enctype="multipart/form-data" th:action="@{/file-upload}" th:object="${file}" method="POST">
                             <div class="container">
                                 <div class="row" style="margin: 1em;">
                                     <div class="col-sm-2">
@@ -48,11 +52,13 @@
                                         <th style="width: 80%" scope="col">File Name</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody th:each="file : ${file}">
                                 <tr>
                                     <td>
                                         <a target="_blank" class="btn btn-success">View</a>
-                                        <a  class="btn btn-danger">Delete</a>
+                                        <form th:action="@{/file-delete}" th:object="${file}" method="POST">
+                                            <a  class="btn btn-danger">Delete</a>
+                                        </form>
                                     </td>
                                     <th scope="row">ExampleFile.txt</th>
                                 </tr>
@@ -60,6 +66,9 @@
                             </table>
                         </div>
                     </div>
+
+
+                    <!--Notes-->
                     <div class="tab-pane fade" id="nav-notes" role="tabpanel" aria-labelledby="nav-notes-tab">
                         <button style="margin: 0.25em;" type="button" class="btn btn-info float-right" onclick="showNoteModal()">
                             + Add a New Note
@@ -118,6 +127,8 @@
                             </div>
                         </div>
                     </div>
+
+                    <!--Credential-->
                     <div class="tab-pane fade" id="nav-credentials" role="tabpanel" aria-labelledby="nav-credentials-tab">
                         <button style="margin: 0.25em;" type="button" class="btn btn-info float-right" onclick="showCredentialModal()">
                             + Add a New Credential
@@ -157,19 +168,30 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form action="#" method="POST">
+                                        <form action="#" method="POST" th:action="@{/credential}" th:object="${credential}">
                                             <input type="hidden" name="credentialId" id="credential-id">
+                                            <!--URL-->
                                             <div class="form-group">
                                                 <label for="note-title" class="col-form-label">URL</label>
-                                                <input type="text" name= "url" class="form-control" id="credential-url" maxlength="100" required>
+                                                <input type="text"
+                                                       name= "url" class="form-control" id="credential-url" maxlength="100" required
+                                                        th:object="${credential.url}"> <!-- equivalent to *{url}-->
                                             </div>
+
+                                            <!--USERNAME-->
                                             <div class="form-group">
                                                 <label for="note-title" class="col-form-label">Username</label>
-                                                <input type="text" name= "username" class="form-control" id="credential-username" maxlength="30" required>
+                                                <input type="text"
+                                                       name= "username" class="form-control" id="credential-username" maxlength="30" required
+                                                        th:object="${credential.username}">
                                             </div>
+
+                                            <!--PASSWORD-->
                                             <div class="form-group">
                                                 <label for="note-title" class="col-form-label">Password</label>
-                                                <input type="text" name= "password" class="form-control" id="credential-password" maxlength="30" required>
+                                                <input type="text"
+                                                       name= "password" class="form-control" id="credential-password" maxlength="30" required
+                                                        th:password="${credential.password}">
                                             </div>
                                             <button id="credentialSubmit" type="submit" class="d-none"></button>
                                         </form>

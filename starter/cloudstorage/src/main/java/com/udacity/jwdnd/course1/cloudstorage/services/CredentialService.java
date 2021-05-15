@@ -5,7 +5,9 @@ import com.udacity.jwdnd.course1.cloudstorage.model.Credential;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
 
 @Service
 public class CredentialService {
@@ -18,12 +20,26 @@ public class CredentialService {
       this.encryptionService = encryptionService;
    }
 
-   private String getEncodedKey(){
+   /*private String getEncodedKey(){
       SecureRandom random = new SecureRandom();
       byte[] key = new byte[16];
       random.nextBytes(key);
       String encodedKey = Base64.getEncoder().encodeToString(key);
       return encodedKey;
+   }*/
+   public String getEncodedKey()
+   {
+      try
+      {
+         SecureRandom random = new SecureRandom();
+         byte[] key = new byte[16];
+         random.nextBytes(key);
+         return Base64.getEncoder().encodeToString(key);
+      }
+      catch (Exception e)
+      { e.printStackTrace();
+      }
+      return null;
    }
 
    public String getDecryptedPassword(Credential credential){
@@ -34,14 +50,26 @@ public class CredentialService {
    }
 
    public int createCredential(Credential credential){
-      String encodedKey = getEncodedKey();
-      String encryptedPassword = encryptionService.encryptValue(credential.getPassword(), encodedKey);
+      String encodedKey = encryptionService.getEncodedKey();
 
+      System.out.println("password: "+credential.getPassword());
+      System.out.println("encodedKey: "+ encodedKey);
       credential.setKey(encodedKey);
+      String encryptedPassword = encryptionService.encryptValue(credential.getPassword(), credential.getKey());
+
+
       credential.setPassword(encryptedPassword);
 
       return credentialMapper.createCredential(credential);
 
+   }
+
+   public List <Credential> getCredentialsByUserId(Integer userid){
+      List <Credential> credentialList = credentialMapper.getCredentialByUserId(userid);
+      if (credentialList == null){
+         return new ArrayList <Credential>();
+      }
+      return credentialList;
    }
 
 }
