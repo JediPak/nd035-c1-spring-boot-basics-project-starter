@@ -38,7 +38,7 @@ public class CredentialController {
 
    @PostMapping
    @RequestMapping("/credential")
-   public String uploadFile(@ModelAttribute("credential") Credential credentialInput, Authentication authentication, Model model) throws IOException {
+   public String uploadCredential(@ModelAttribute("credential") Credential credentialInput, Authentication authentication, Model model) throws IOException {
       String username = authentication.getName();
       Integer userid = userService.getIdByUsername(username);
 
@@ -46,10 +46,17 @@ public class CredentialController {
       String c_username = credentialInput.getUsername();
       String c_password = credentialInput.getPassword();
       credentialInput.setUserid(userid);
+
       //Credential credential = new Credential(null, filename, contenttype, filesize, userid, fis);
       System.out.println("point 1 credential: " +credentialInput.toString());
-      credentialService.createCredential(credentialInput);
-      System.out.println("credential created: " + credentialInput.toString());
+      System.out.println("credentialInput.getCredentialid(): "+credentialInput.getCredentialid());
+      if(credentialInput.getCredentialid() == 0) {
+         credentialService.createCredential(credentialInput);
+         System.out.println("credential created: " + credentialInput.toString());
+      } else {
+         credentialService.updateCredential(credentialInput);
+         System.out.println("credential updated: " + credentialInput.toString());
+      }
 
       model.addAttribute("users", this.userService.getUserById(userid));
       model.addAttribute("files", this.fileService.getFilesByUserId(userid));

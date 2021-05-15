@@ -20,8 +20,10 @@
                     You successfully signed up! Please continue to the <a th:href="@{/login}">login</a> page.
                 </div>
                 <div id="error-msg" th:if="${signupError}" class="alert alert-danger">
-                    <span>Example Signup Error Message</span>
+                    <!--this was the original <span>Example Signup Error Message</span>-->
+                    <span th:text="${signupError}">Error: in signing up</span>
                 </div>
+
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="inputFirstName">First Name</label>

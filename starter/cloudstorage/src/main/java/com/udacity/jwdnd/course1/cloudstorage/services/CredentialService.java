@@ -52,15 +52,29 @@ public class CredentialService {
    public int createCredential(Credential credential){
       String encodedKey = encryptionService.getEncodedKey();
 
-      System.out.println("password: "+credential.getPassword());
-      System.out.println("encodedKey: "+ encodedKey);
+      System.out.println(" create password: "+credential.getPassword());
+      System.out.println("create encodedKey: "+ encodedKey);
       credential.setKey(encodedKey);
       String encryptedPassword = encryptionService.encryptValue(credential.getPassword(), credential.getKey());
-
-
       credential.setPassword(encryptedPassword);
+      //credential.setPassword(credential.getPassword());
 
       return credentialMapper.createCredential(credential);
+
+   }
+
+   public int updateCredential(Credential credential){
+      String encodedKey = encryptionService.getEncodedKey();
+
+      System.out.println("update password: "+credential.getPassword());
+
+      credential.setUrl(credential.getUrl());
+      credential.setUrl(credential.getUsername());
+      //String encryptedPassword = encryptionService.encryptValue(credential.getPassword(), credential.getKey());
+      //credential.setPassword(encryptedPassword);
+      credential.setPassword(credential.getPassword());
+
+      return credentialMapper.updateCredential(credential);
 
    }
 
