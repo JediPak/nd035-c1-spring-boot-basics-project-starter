@@ -16,14 +16,26 @@ public class NoteService {
       this.noteMapper = noteMapper;
    }
 
-   public int createNote(Note note){
-      return noteMapper.createUser(note);
-   }
-
    public List <Note> getNote(){
       return noteMapper.getNote();
    }
 
+   //returns noteid of newly created note
+   public Integer createNote(Note note){
+      return noteMapper.createUser(note);
+   }
+
+   //returns number of updated rows
+   public Integer updateNote(Note note){
+      return noteMapper.updateNote(note);
+   }
+
+   //returns number of deleted rows
+   public Integer deleteNote(Integer noteid){
+      return noteMapper.deleteNote(noteid);
+   }
+
+   //returns list of all notes of one user
    public List<Note> getNotesByUserId(Integer userid){
       List <Note> noteList= noteMapper.getNoteByUserId(userid);
       if (noteList == null){

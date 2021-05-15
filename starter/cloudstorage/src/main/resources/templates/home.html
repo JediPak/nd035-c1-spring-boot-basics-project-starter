@@ -84,18 +84,22 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
+                                    <tr th:each="note : ${notes}">
                                         <td>
-                                            <button type="button" class="btn btn-success">Edit</button>
-                                            <a class="btn btn-danger">Delete</a>
+                                            <button th:onclick="showNoteModal([[${note.noteid}]],
+                                                    [[${note.notetitle}]],[[${note.notedescription}]])"
+                                                    type="button" class="btn btn-success">Edit</button>
+                                            <a class="btn btn-danger"
+                                               th:href="@{'/note/delete/' + ${note.noteid}}">Delete</a>
                                         </td>
-                                        <th scope="row">Example Note Title</th>
-                                        <td>Example Note Description </td>
+                                        <th scope="row" th:text="${note.notetitle}">Example Note Title</th>
+                                        <td th:text="${note.notedescription}">Example Note Description </td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
 
+                        <!--pop up for note saving/editing-->
                         <div class="modal fade" id="noteModal" tabindex="-1" role="dialog" aria-labelledby="noteModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
@@ -106,18 +110,25 @@
                                         </button>
                                     </div>
 
-                                    <!--pop up for note saving/editing-->
-                                    <div class="modal-body">
-                                        <form action="#" method="POST">
-                                            <input type="hidden" name="noteId" id="note-id">
+                                    <!--note input-->
+                                    <div class="modal-body" >
+                                        <form action="#" method="POST" th:action="@{/note}" th:object="${note}">
+
+                                            <!--NOTEID-->
+                                            <input th:field="*{noteid}" type="hidden" name="noteId" id="note-id">
+
+                                            <!--NOTETITLE-->
                                             <div class="form-group">
                                                 <label for="note-title" class="col-form-label">Title</label>
-                                                <input type="text" name= "noteTitle" class="form-control" id="note-title" maxlength="20" required>
+                                                <input th:field="*{notetitle}" type="text" name= "noteTitle" class="form-control" id="note-title" maxlength="20" required>
                                             </div>
+
+                                            <!--NOTEDESCRIPTION-->
                                             <div class="form-group">
                                                 <label for="note-description" class="col-form-label">Description</label>
-                                                <textarea class="form-control" name="noteDescription" id="note-description" rows="5" maxlength="1000" required></textarea>
+                                                <textarea th:field="*{notedescription}" class="form-control" name="noteDescription" id="note-description" rows="5" maxlength="1000" required></textarea>
                                             </div>
+
                                             <button id="noteSubmit" type="submit" class="d-none"></button>
                                         </form>
                                     </div>
@@ -147,18 +158,19 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="credential : ${credentials}">
-                                    <td>
-                                        <button type="button" class="btn btn-success" th:onclick="showCredentialModal([[${credential.credentialid}]],
-                                                [[${credential.url}]],[[${credential.username}]],[[${credential.password}]])">
-                                                Edit</button>
+                                    <tr th:each="credential : ${credentials}">
+                                        <td>
+                                            <button type="button" class="btn btn-success" th:onclick="showCredentialModal([[${credential.credentialid}]],
+                                                    [[${credential.url}]],[[${credential.username}]],[[${credential.password}]])">
+                                                    Edit</button>
 
-                                        <a class="btn btn-danger">Delete</a>
-                                    </td>
-                                    <th scope="row" th:text="'credentialid: ' + ${credential.credentialid} + ' url: '  + ${credential.url}">Example Credential URL</th>
-                                    <td th:text="${credential.username}">Example Credential Username</td>
-                                    <td th:text="${credential.password}">Example Credential Password</td>
-                                </tr>
+                                            <a class="btn btn-danger"
+                                               th:href="@{'/credential/delete/' + ${credential.credentialid}}">Delete</a>
+                                        </td>
+                                        <th scope="row" th:text="'credentialid: ' + ${credential.credentialid} + ' url: '  + ${credential.url}">Example Credential URL</th>
+                                        <td th:text="${credential.username}">Example Credential Username</td>
+                                        <td th:text="${credential.password}">Example Credential Password</td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -177,7 +189,9 @@
                                     <!--credential input-->
                                     <div class="modal-body">
                                         <form action="#" method="POST" th:action="@{/credential}" th:object="${credential}">
+                                            <!--CREDENTIALID-->
                                             <input th:field="*{credentialid}" type="hidden" name="credentialId" id="credential-id">
+
                                             <!--URL-->
                                             <div class="form-group">
                                                 <label for="note-title" class="col-form-label">URL</label>
@@ -226,7 +240,7 @@
         <script type="text/javascript">
             // For opening the note modal
             function showNoteModal(noteId, noteTitle, noteDescription) {
-                $('#note-id').val(noteId ? noteId : '');
+                $('#note-id').val(noteId ? noteId : 0);
                 $('#note-title').val(noteTitle ? noteTitle : '');
                 $('#note-description').val(noteDescription ? noteDescription : '');
                 $('#noteModal').modal('show');
@@ -240,6 +254,17 @@
                 $('#credential-password').val(password ? password : '');
                 $('#credentialModal').modal('show');
             }
+
+            $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+	            localStorage.setItem('activeTab', $(e.target).attr('href'));
+            });
+            // read hash from page load and change tab
+            var activeTab = localStorage.getItem('activeTab');
+            if(activeTab){
+	            $('.nav-tabs a[href="' + activeTab + '"]').tab('show');
+            }
+
+
         </script>
     </body>
 </html>

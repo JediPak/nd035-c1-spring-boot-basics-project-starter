@@ -31,5 +31,5 @@ public interface NoteMapper {
    public Integer updateNote(Note note);
 
    @Delete("DELETE FROM NOTES WHERE noteid = #{noteid}")
-   public void deleteNote(Integer noteid);
+   public Integer deleteNote(Integer noteid);
 }

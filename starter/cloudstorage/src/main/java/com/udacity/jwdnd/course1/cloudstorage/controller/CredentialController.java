@@ -10,10 +10,7 @@ import com.udacity.jwdnd.course1.cloudstorage.services.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -35,27 +32,30 @@ public class CredentialController {
    }
 
 
-
-   @PostMapping
-   @RequestMapping("/credential")
-   public String uploadCredential(@ModelAttribute("credential") Credential credentialInput, Authentication authentication, Model model) throws IOException {
+   @GetMapping
+   @RequestMapping("/credential/delete/{credentialid}")
+   public String deleteCredential(@PathVariable("credentialid") Integer credentialid, @ModelAttribute("credential") Credential credential, Authentication authentication, Model model){
       String username = authentication.getName();
       Integer userid = userService.getIdByUsername(username);
 
-      String c_url = credentialInput.getUrl();
-      String c_username = credentialInput.getUsername();
-      String c_password = credentialInput.getPassword();
-      credentialInput.setUserid(userid);
+      int deletedNum = 0;
 
-      //Credential credential = new Credential(null, filename, contenttype, filesize, userid, fis);
-      System.out.println("point 1 credential: " +credentialInput.toString());
-      System.out.println("credentialInput.getCredentialid(): "+credentialInput.getCredentialid());
-      if(credentialInput.getCredentialid() == 0) {
-         credentialService.createCredential(credentialInput);
-         System.out.println("credential created: " + credentialInput.toString());
-      } else {
-         credentialService.updateCredential(credentialInput);
-         System.out.println("credential updated: " + credentialInput.toString());
+      try {
+         deletedNum= credentialService.deleteCredential(credentialid);
+         if (deletedNum > 0) {
+            model.addAttribute("successfulChange", true);
+            model.addAttribute("successMsg", "Success: deleting credential was successful.");
+            System.out.println("deletedNum: " + deletedNum);
+         } else {
+            model.addAttribute("successfulChange", false);
+            model.addAttribute("errorMsg", "Error: deleting credential was not successful.(DB error)");
+            System.out.println("deletedNum: " + deletedNum);
+         }
+      } catch (Exception e) {
+         e.printStackTrace();
+         model.addAttribute("successfulChange", false);
+         model.addAttribute("errorMsg", "Error: deleting credential was not successful.");
+         System.out.println("deletedNum: " + deletedNum);
       }
 
       model.addAttribute("users", this.userService.getUserById(userid));
@@ -63,41 +63,72 @@ public class CredentialController {
       model.addAttribute("notes", this.noteService.getNotesByUserId(userid));
       model.addAttribute("credentials", this.credentialService.getCredentialsByUserId(userid));
 
-      return "home";
+      return "result";
    }
-   /*
+
    @PostMapping
-   @RequestMapping("/file-download")
-   public String createFile(@ModelAttribute("file") MultipartFile file, Model model) throws IOException {
+   @RequestMapping("/credential")
+   public String uploadCredential(@ModelAttribute("credential") Credential credential, Authentication authentication, Model model) throws IOException {
       String username = authentication.getName();
-      InputStream fis = file.getInputStream();
-      List<File> files =  fileService.getFileByUsername(username);
-      return "home";
-   }*/
+      Integer userid = userService.getIdByUsername(username);
+      Integer status = -1;
 
-   /*private MessageService messageService;
+      String c_url = credential.getUrl();
+      String c_username = credential.getUsername();
+      String c_password = credential.getPassword();
 
-    public ChatController(MessageService messageService) {
-        this.messageService = messageService;
-    }
+      //Credential credential = new Credential(null, filename, contenttype, filesize, userid, fis);
+      System.out.println("credential: " +credential.toString());
 
-    @GetMapping
-    public String getChatPage(ChatForm chatForm, Model model) {
-        model.addAttribute("chatMessages", this.messageService.getChatMessages());
-        return "chat";
-    }
+      //creating new credential
+      if(credential.getCredentialid() == 0) {
+         try {
+            //setting userid for the newly created note, since it shouldn't be defined yet
+            credential.setUserid(userid);
+            status = credentialService.createCredential(credential);
+            if (status > 0) {
+               System.out.println("credential created (successful): " + credential.toString());
+               model.addAttribute("successfulChange", true);
+               model.addAttribute("successMsg", "Success: creating credential was successful.");
+            } else {
+               System.out.println("credential created (successful--not status has 0 or neg number("+status+")): " + credential.toString());
+               model.addAttribute("successfulChange", false);
+               model.addAttribute("errorMsg", "Error: creating credential was not successful. (Error in DB)");
+            }
+         } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("credential created (error): " + credential.toString());
+            model.addAttribute("successfulChange", false);
+            model.addAttribute("errorMsg", "Error: creating credential was not successful.");
+         }
 
-    @PostMapping
-    public String postChatMessage(Authentication authentication, ChatForm chatForm, Model model) {
-        chatForm.setUsername(authentication.getName());
-        this.messageService.addMessage(chatForm);
-        chatForm.setMessageText("");
-        model.addAttribute("chatMessages", this.messageService.getChatMessages());
-        return "chat";
-    }
+      //updating existing credential
+      } else {
+         try {
+            status = credentialService.updateCredential(credential);
+            if (status > 0) {
+               System.out.println("credential updated: " + credential.toString());
+               model.addAttribute("successfulChange", true);
+               model.addAttribute("successMsg", "Success: updating credential was successful.");
+            } else {
+               System.out.println("credential updated (successful--not status has 0 or neg number("+status+")): " + credential.toString());
+               model.addAttribute("successfulChange", false);
+               model.addAttribute("errorMsg", "Error: updating credential not was successful. (Error in DB)");
+            }
+         } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("credential updated: " + credential.toString());
+            model.addAttribute("successfulChange", false);
+            model.addAttribute("errorMsg", "Error: updating credential not was successful.");
+         }
+      }
 
-    @ModelAttribute("allMessageTypes")
-    public String[] allMessageTypes () {
-        return new String[] { "Say", "Shout", "Whisper" };
-    }*/
+      model.addAttribute("users", this.userService.getUserById(userid));
+      model.addAttribute("files", this.fileService.getFilesByUserId(userid));
+      model.addAttribute("notes", this.noteService.getNotesByUserId(userid));
+      model.addAttribute("credentials", this.credentialService.getCredentialsByUserId(userid));
+
+      return "result";
+   }
+
 }

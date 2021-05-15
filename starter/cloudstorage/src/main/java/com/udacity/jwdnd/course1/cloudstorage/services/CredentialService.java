@@ -2,6 +2,7 @@ package com.udacity.jwdnd.course1.cloudstorage.services;
 
 import com.udacity.jwdnd.course1.cloudstorage.mapper.CredentialMapper;
 import com.udacity.jwdnd.course1.cloudstorage.model.Credential;
+import com.udacity.jwdnd.course1.cloudstorage.model.Note;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
@@ -18,6 +19,10 @@ public class CredentialService {
    public CredentialService(CredentialMapper credentialMapper, EncryptionService encryptionService) {
       this.credentialMapper = credentialMapper;
       this.encryptionService = encryptionService;
+   }
+
+   public List <Credential> getCredential(){
+      return credentialMapper.getCredential();
    }
 
    /*private String getEncodedKey(){
@@ -49,20 +54,26 @@ public class CredentialService {
 
    }
 
+   //returns credentialid of newly created credential
    public int createCredential(Credential credential){
       String encodedKey = encryptionService.getEncodedKey();
 
       System.out.println(" create password: "+credential.getPassword());
       System.out.println("create encodedKey: "+ encodedKey);
       credential.setKey(encodedKey);
+
+      //not working
       String encryptedPassword = encryptionService.encryptValue(credential.getPassword(), credential.getKey());
       credential.setPassword(encryptedPassword);
+
+      //temporary solution
       //credential.setPassword(credential.getPassword());
 
       return credentialMapper.createCredential(credential);
 
    }
 
+   //returns number of updated rows
    public int updateCredential(Credential credential){
       String encodedKey = encryptionService.getEncodedKey();
 
@@ -72,14 +83,20 @@ public class CredentialService {
 
       credential.setUrl(credential.getUrl());
       credential.setUsername(credential.getUsername());
-      String encryptedPassword = encryptionService.encryptValue(credential.getPassword(), credential.getKey());
-      credential.setPassword(encryptedPassword);
-      //credential.setPassword(credential.getPassword());
+      //String encryptedPassword = encryptionService.encryptValue(credential.getPassword(), credential.getKey());
+      //credential.setPassword(encryptedPassword);
+      credential.setPassword(credential.getPassword());
 
       return credentialMapper.updateCredential(credential);
 
    }
 
+   //returns number of deleted rows
+   public int deleteCredential(Integer credentialid){
+      return credentialMapper.deleteCredential(credentialid);
+   }
+
+   //returns list of all credentials of one user
    public List <Credential> getCredentialsByUserId(Integer userid){
       List <Credential> credentialList = credentialMapper.getCredentialByUserId(userid);
       if (credentialList == null){

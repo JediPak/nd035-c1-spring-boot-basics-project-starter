@@ -34,5 +34,5 @@ public interface CredentialMapper {
    public Integer updateCredential(Credential credential);
 
    @Delete("DELETE FROM CREDENTIALS WHERE credentialid = #{credentialid}")
-   public void deleteCredential(Integer credentialid);
+   public Integer deleteCredential(Integer credentialid);
 }
