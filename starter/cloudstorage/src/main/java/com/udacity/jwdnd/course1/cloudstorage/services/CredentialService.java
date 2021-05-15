@@ -66,13 +66,15 @@ public class CredentialService {
    public int updateCredential(Credential credential){
       String encodedKey = encryptionService.getEncodedKey();
 
+      System.out.println("update url: "+credential.getUrl());
+      System.out.println("update username: "+credential.getUsername());
       System.out.println("update password: "+credential.getPassword());
 
       credential.setUrl(credential.getUrl());
-      credential.setUrl(credential.getUsername());
-      //String encryptedPassword = encryptionService.encryptValue(credential.getPassword(), credential.getKey());
-      //credential.setPassword(encryptedPassword);
-      credential.setPassword(credential.getPassword());
+      credential.setUsername(credential.getUsername());
+      String encryptedPassword = encryptionService.encryptValue(credential.getPassword(), credential.getKey());
+      credential.setPassword(encryptedPassword);
+      //credential.setPassword(credential.getPassword());
 
       return credentialMapper.updateCredential(credential);
 

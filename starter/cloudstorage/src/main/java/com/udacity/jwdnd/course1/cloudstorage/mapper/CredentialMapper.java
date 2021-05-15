@@ -27,8 +27,8 @@ public interface CredentialMapper {
    //SET column1 = value1, column2 = value2, ...
    //WHERE condition;
    @Update("UPDATE CREDENTIALS SET " +
+           "url=#{url}, " +
            "username=#{username}, " +
-           "key=#{key}, " +
            "password=#{password}" +
            "WHERE credentialid=#{credentialid}")
    public Integer updateCredential(Credential credential);
