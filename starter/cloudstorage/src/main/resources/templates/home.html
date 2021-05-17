@@ -12,8 +12,8 @@
         <div class="container">
 
             <div id="logoutDiv">
-                <form action="#" method="POST">
-                    <button type="submit" class="btn btn-secondary float-right">Logout</button>
+                <form th:href="@{/logout}" action="#" method="POST" >
+                    <button th:href="@{/logout}" type="submit" class="btn btn-secondary float-right">Logout</button>
                 </form>
             </div>
 
@@ -29,6 +29,8 @@
                 <div class="tab-content" id="nav-tabContent">
                     <!--File-->
                     <div class="tab-pane fade show active" id="nav-files" role="tabpanel" aria-labelledby="nav-files-tab">
+
+                        <!--Uploading a file-->
                         <form action="#" enctype="multipart/form-data" th:action="@{/file-upload}" th:object="${file}" method="POST">
                             <div class="container">
                                 <div class="row" style="margin: 1em;">
@@ -44,6 +46,8 @@
                                 </div>
                             </div>
                         </form>
+
+                        <!--Viewing/Downloading and Editing a file-->
                         <div class="table-responsive">
                             <table class="table table-striped" id="fileTable">
                                 <thead>
@@ -52,16 +56,16 @@
                                         <th style="width: 80%" scope="col">File Name</th>
                                     </tr>
                                 </thead>
-                                <tbody th:each="file : ${file}">
-                                <tr>
-                                    <td>
-                                        <a target="_blank" class="btn btn-success">View</a>
-                                        <form th:action="@{/file-delete}" th:object="${file}" method="POST">
-                                            <a  class="btn btn-danger">Delete</a>
-                                        </form>
-                                    </td>
-                                    <th scope="row">ExampleFile.txt</th>
-                                </tr>
+                                <tbody th:each="file : ${files}">
+                                    <tr>
+                                        <td>
+                                            <a th:href="@{'/file/download/' + ${file.fileId}}"
+                                               target="_blank" class="btn btn-success">View</a>
+                                            <a th:href="@{'/file/delete/' + ${file.fileId}}"
+                                               class="btn btn-danger">Delete</a>
+                                        </td>
+                                        <th th:text="${file.filename}" scope="row">ExampleFile.txt</th>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>

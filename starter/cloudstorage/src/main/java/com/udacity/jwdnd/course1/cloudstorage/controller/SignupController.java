@@ -35,6 +35,7 @@ public class SignupController {
          signupError = "The username already exists.";
       }
       if (signupError == null){
+
          userid = userService.createUser(user);
          if (userid < 0){
             signupError = "There was an error signing you up.";
@@ -48,6 +49,20 @@ public class SignupController {
       else{
          model.addAttribute("signupError", signupError);
       }
-      return "signup";
+
+      //redirecting to different page after signing up
+      if (signupError == null) {
+
+         model.addAttribute("signupSuccess", true);
+
+         return "signupredirect";
+
+      } else {
+
+         model.addAttribute("signupError", signupError);
+
+         return "signup";
+      }
+      //return "signup";
    }
 }

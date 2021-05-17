@@ -34,7 +34,9 @@ public class CredentialController {
 
    @GetMapping
    @RequestMapping("/credential/delete/{credentialid}")
-   public String deleteCredential(@PathVariable("credentialid") Integer credentialid, @ModelAttribute("credential") Credential credential, Authentication authentication, Model model){
+   public String deleteCredential(@PathVariable("credentialid") Integer credentialid,
+                                  @ModelAttribute("credential") Credential credential,
+                                  Authentication authentication, Model model){
       String username = authentication.getName();
       Integer userid = userService.getIdByUsername(username);
 
@@ -48,7 +50,7 @@ public class CredentialController {
             System.out.println("deletedNum: " + deletedNum);
          } else {
             model.addAttribute("successfulChange", false);
-            model.addAttribute("errorMsg", "Error: deleting credential was not successful.(DB error)");
+            model.addAttribute("errorMsg", "Error: deleting credential was not successful. (Error in DB)");
             System.out.println("deletedNum: " + deletedNum);
          }
       } catch (Exception e) {
@@ -68,7 +70,8 @@ public class CredentialController {
 
    @PostMapping
    @RequestMapping("/credential")
-   public String uploadCredential(@ModelAttribute("credential") Credential credential, Authentication authentication, Model model) throws IOException {
+   public String uploadCredential(@ModelAttribute("credential") Credential credential,
+                                  Authentication authentication, Model model) throws IOException {
       String username = authentication.getName();
       Integer userid = userService.getIdByUsername(username);
       Integer status = -1;
@@ -113,13 +116,13 @@ public class CredentialController {
             } else {
                System.out.println("credential updated (successful--not status has 0 or neg number("+status+")): " + credential.toString());
                model.addAttribute("successfulChange", false);
-               model.addAttribute("errorMsg", "Error: updating credential not was successful. (Error in DB)");
+               model.addAttribute("errorMsg", "Error: updating credential was not successful. (Error in DB)");
             }
          } catch (Exception e) {
             e.printStackTrace();
             System.out.println("credential updated: " + credential.toString());
             model.addAttribute("successfulChange", false);
-            model.addAttribute("errorMsg", "Error: updating credential not was successful.");
+            model.addAttribute("errorMsg", "Error: updating credential was not successful.");
          }
       }
 

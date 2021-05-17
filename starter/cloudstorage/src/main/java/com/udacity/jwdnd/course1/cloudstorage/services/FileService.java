@@ -17,13 +17,26 @@ public class FileService {
       this.userService = userService;
    }
 
-   public void createFile(File file){
-      fileMapper.createFile(file);
+   public Integer createFile(File file){
+      return fileMapper.createFile(file);
+   }
+
+   public Integer deleteFile(Integer fileid){
+      return fileMapper.deleteFile(fileid);
    }
 
    public List<File> getFileByUsername(String username){
       Integer userid = userService.getIdByUsername(username);
       return getFilesByUserId(userid);
+   }
+
+   public File getFileById(Integer fileid){
+      return fileMapper.getFileById(fileid);
+   }
+
+   public boolean doesFileNameAlreadyExist(String filename, Integer userid){
+      return fileMapper.doesFileNameAlreadyExist(filename, userid) != null;
+      //does exist --> true
    }
 
    public List <File> getFilesByUserId(Integer userid){

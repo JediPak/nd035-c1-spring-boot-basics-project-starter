@@ -1,0 +1,35 @@
+<!DOCTYPE html><html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/bootstrap.min.css}"> <title>Sign Up</title>
+
+    <script>
+
+        function sleep(ms)
+
+        { return new Promise(resolve => setTimeout(resolve, ms));
+
+        }
+
+        async function demo() {
+
+        console.log('Taking a break...');
+
+        await sleep(2000);
+
+        document.getElementById("link").click(); }
+
+</script>
+
+</head>
+
+<body class="p-3 mb-2 bg-light text-black" onload="demo()">
+
+<div th:if="${signupSuccess}" class="alert alert-dark" > You successfully signed up! Please continue to the <a th:href="@{/login}" id="link">login</a> page.</div>
+
+</body></html>

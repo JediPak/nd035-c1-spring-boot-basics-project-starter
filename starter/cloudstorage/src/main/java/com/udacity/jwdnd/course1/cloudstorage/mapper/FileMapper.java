@@ -16,6 +16,10 @@ public interface FileMapper {
    @Select("SELECT * FROM FILES WHERE fileId=#{fileId}")
    public File getFileById(Integer fileId);
 
+   @Select("SELECT * FROM FILES " +
+           "WHERE filename=#{filename} AND userid=#{userid}")
+   public File doesFileNameAlreadyExist(String filename, Integer userid);
+
    @Select("SELECT * FROM FILES WHERE userid=#{userid}")
    public List<File> getFileByUserId(Integer userid);
 
@@ -28,11 +32,10 @@ public interface FileMapper {
            "filename=#{filename}, " +
            "contenttype=#{contenttype}, " +
            "filesize=#{filesize}, " +
-           "userid=#{userid}, " +
            "filedata=#{filedata}, " +
            "WHERE fileId=#{fileId}")
    public Integer updateFile(File file);
 
    @Delete("DELETE FROM FILES WHERE fileId = #{fileId}")
-   public void deleteFile(Integer fileId);
+   public Integer deleteFile(Integer fileId);
 }

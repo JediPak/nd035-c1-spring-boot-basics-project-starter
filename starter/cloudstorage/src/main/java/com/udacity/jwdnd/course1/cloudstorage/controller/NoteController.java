@@ -28,25 +28,30 @@ public class NoteController {
       this.credentialService = credentialService;
    }
 
-
-   /*
    @GetMapping
    @RequestMapping("/note/delete/{noteid}")
-   public String deleteCredential(@PathVariable("noteid") Integer noteid, @ModelAttribute("noteid") Credential credential, Authentication authentication, Model model){
+   public String deleteNote(@PathVariable("noteid") Integer noteid, @ModelAttribute("note") Note note,
+                            Authentication authentication, Model model){
       String username = authentication.getName();
       Integer userid = userService.getIdByUsername(username);
 
       int deletedNum = 0;
 
       try {
-         deletedNum= credentialService.deleteCredential(noteid);
-         model.addAttribute("successfulChange", true);
-         model.addAttribute("successMsg", "Success: deleting credential was successful.");
-         System.out.println("deletedNum: " + deletedNum);
+         deletedNum= noteService.deleteNote(noteid);
+         if (deletedNum > 0) {
+            model.addAttribute("successfulChange", true);
+            model.addAttribute("successMsg", "Success: deleting note was successful.");
+            System.out.println("deletedNum: " + deletedNum);
+         } else {
+            model.addAttribute("successfulChange", true);
+            model.addAttribute("errorMsg", "Error: deleting note was not successful. (Error in DB)");
+            System.out.println("deletedNum: " + deletedNum);
+         }
       } catch (Exception e) {
          e.printStackTrace();
          model.addAttribute("successfulChange", false);
-         model.addAttribute("errorMsg", "Error: deleting credential was not successful.");
+         model.addAttribute("errorMsg", "Error: deleting note was not successful.");
          System.out.println("deletedNum: " + deletedNum);
       }
 
@@ -56,7 +61,7 @@ public class NoteController {
       model.addAttribute("credentials", this.credentialService.getCredentialsByUserId(userid));
 
       return "result";
-   }*/
+   }
 
    @PostMapping
    @RequestMapping("/note")

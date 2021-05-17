@@ -6,6 +6,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 
 @Configuration
 @EnableWebSecurity //without this line you get the "Please sign in" login page
@@ -33,6 +34,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
       http.formLogin()
               .defaultSuccessUrl("/home", true);
+
+      http.logout(logout -> logout
+              .logoutUrl("/basic/basiclogout")
+              .addLogoutHandler(new SecurityContextLogoutHandler())
+      );
    }
 
 }

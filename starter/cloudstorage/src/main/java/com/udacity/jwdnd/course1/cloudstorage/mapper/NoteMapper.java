@@ -25,8 +25,7 @@ public interface NoteMapper {
 
    @Update("UPDATE NOTES SET " +
            "notetitle=#{notetitle}, " +
-           "notedescription=#{notedescription}, " +
-           "userid=#{userid}, " +
+           "notedescription=#{notedescription}" +
            "WHERE noteid=#{noteid}")
    public Integer updateNote(Note note);
 

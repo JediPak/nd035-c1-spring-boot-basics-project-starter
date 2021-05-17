@@ -8,14 +8,15 @@ import com.udacity.jwdnd.course1.cloudstorage.services.FileService;
 import com.udacity.jwdnd.course1.cloudstorage.services.NoteService;
 import com.udacity.jwdnd.course1.cloudstorage.services.UserService;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -53,55 +54,15 @@ public class HomeController {
 
       return "home";
    }
-/*
-   @PostMapping
-   @RequestMapping("/file-upload")
-   public String uploadFile(@ModelAttribute("file") MultipartFile fileInput, Authentication authentication, Model model) throws IOException {
-      String username = authentication.getName();
-      Integer userid = userService.getIdByUsername(username);
 
-      String filename = fileInput.getName();
-      String contenttype = fileInput.getContentType();
-      String filesize = Long.toString(fileInput.getSize());
-      InputStream fis = fileInput.getInputStream();
+   @RequestMapping(value="/logout", method = RequestMethod.GET)
+   public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
+      Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+      if (auth != null){
+         new SecurityContextLogoutHandler().logout(request, response, auth);
+      }
+      return "redirect:/login?logout"; //You can redirect wherever you want, but generally it's a good practice to show login screen again.
+   }
 
-      File file = new File(null, filename, contenttype, filesize, userid, fis);
-      fileService.createFile(file);
-      return "home";
-   }*/
-   /*
-   @PostMapping
-   @RequestMapping("/file-download")
-   public String createFile(@ModelAttribute("file") MultipartFile file, Model model) throws IOException {
-      String username = authentication.getName();
-      InputStream fis = file.getInputStream();
-      List<File> files =  fileService.getFileByUsername(username);
-      return "home";
-   }*/
 
-   /*private MessageService messageService;
-
-    public ChatController(MessageService messageService) {
-        this.messageService = messageService;
-    }
-
-    @GetMapping
-    public String getChatPage(ChatForm chatForm, Model model) {
-        model.addAttribute("chatMessages", this.messageService.getChatMessages());
-        return "chat";
-    }
-
-    @PostMapping
-    public String postChatMessage(Authentication authentication, ChatForm chatForm, Model model) {
-        chatForm.setUsername(authentication.getName());
-        this.messageService.addMessage(chatForm);
-        chatForm.setMessageText("");
-        model.addAttribute("chatMessages", this.messageService.getChatMessages());
-        return "chat";
-    }
-
-    @ModelAttribute("allMessageTypes")
-    public String[] allMessageTypes () {
-        return new String[] { "Say", "Shout", "Whisper" };
-    }*/
 }
