@@ -2,10 +2,7 @@ package com.udacity.jwdnd.course1.cloudstorage.controller;
 
 import com.udacity.jwdnd.course1.cloudstorage.model.File;
 import com.udacity.jwdnd.course1.cloudstorage.model.Note;
-import com.udacity.jwdnd.course1.cloudstorage.services.CredentialService;
-import com.udacity.jwdnd.course1.cloudstorage.services.FileService;
-import com.udacity.jwdnd.course1.cloudstorage.services.NoteService;
-import com.udacity.jwdnd.course1.cloudstorage.services.UserService;
+import com.udacity.jwdnd.course1.cloudstorage.services.*;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -23,12 +20,14 @@ import java.io.InputStream;
 @Controller
 public class FileController {
 
+   private EncryptionService encryptionService;
    private FileService fileService;
    private UserService userService;
    private NoteService noteService;
    private CredentialService credentialService;
 
-   public FileController(FileService fileService, UserService userService, NoteService noteService, CredentialService credentialService) {
+   public FileController(EncryptionService encryptionService, FileService fileService, UserService userService, NoteService noteService, CredentialService credentialService) {
+      this.encryptionService = encryptionService;
       this.fileService = fileService;
       this.userService = userService;
       this.noteService = noteService;
@@ -83,6 +82,7 @@ public class FileController {
       model.addAttribute("files", this.fileService.getFilesByUserId(userid));
       model.addAttribute("notes", this.noteService.getNotesByUserId(userid));
       model.addAttribute("credentials", this.credentialService.getCredentialsByUserId(userid));
+      model.addAttribute("encryptionService",encryptionService);
 
       return fileToDownload;
    }
@@ -118,6 +118,7 @@ public class FileController {
       model.addAttribute("files", this.fileService.getFilesByUserId(userid));
       model.addAttribute("notes", this.noteService.getNotesByUserId(userid));
       model.addAttribute("credentials", this.credentialService.getCredentialsByUserId(userid));
+      model.addAttribute("encryptionService",encryptionService);
 
       return "result";
    }
@@ -192,6 +193,7 @@ public class FileController {
       model.addAttribute("files", this.fileService.getFilesByUserId(userid));
       model.addAttribute("notes", this.noteService.getNotesByUserId(userid));
       model.addAttribute("credentials", this.credentialService.getCredentialsByUserId(userid));
+      model.addAttribute("encryptionService",encryptionService);
 
       return "result";
    }

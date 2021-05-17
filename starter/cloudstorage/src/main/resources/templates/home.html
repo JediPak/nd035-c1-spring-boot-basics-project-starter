@@ -12,8 +12,8 @@
         <div class="container">
 
             <div id="logoutDiv">
-                <form th:href="@{/logout}" action="#" method="POST" >
-                    <button th:href="@{/logout}" type="submit" class="btn btn-secondary float-right">Logout</button>
+                <form th:action="@{/logout}" action="#" method="POST" >
+                    <button type="submit" class="btn btn-secondary float-right">Logout</button>
                 </form>
             </div>
 
@@ -165,7 +165,7 @@
                                     <tr th:each="credential : ${credentials}">
                                         <td>
                                             <button type="button" class="btn btn-success" th:onclick="showCredentialModal([[${credential.credentialid}]],
-                                                    [[${credential.url}]],[[${credential.username}]],[[${credential.password}]])">
+                                                    [[${credential.url}]],[[${credential.username}]],[[${encryptionService.decryptValue(credential.password, credential.key)}]])">
                                                     Edit</button>
 
                                             <a class="btn btn-danger"

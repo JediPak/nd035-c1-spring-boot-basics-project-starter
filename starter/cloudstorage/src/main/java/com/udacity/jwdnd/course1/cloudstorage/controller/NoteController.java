@@ -2,10 +2,7 @@ package com.udacity.jwdnd.course1.cloudstorage.controller;
 
 import com.udacity.jwdnd.course1.cloudstorage.model.Credential;
 import com.udacity.jwdnd.course1.cloudstorage.model.Note;
-import com.udacity.jwdnd.course1.cloudstorage.services.CredentialService;
-import com.udacity.jwdnd.course1.cloudstorage.services.FileService;
-import com.udacity.jwdnd.course1.cloudstorage.services.NoteService;
-import com.udacity.jwdnd.course1.cloudstorage.services.UserService;
+import com.udacity.jwdnd.course1.cloudstorage.services.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,12 +13,14 @@ import java.io.IOException;
 @Controller
 public class NoteController {
 
+   private EncryptionService encryptionService;
    private FileService fileService;
    private UserService userService;
    private NoteService noteService;
    private CredentialService credentialService;
 
-   public NoteController(FileService fileService, UserService userService, NoteService noteService, CredentialService credentialService) {
+   public NoteController(EncryptionService encryptionService, FileService fileService, UserService userService, NoteService noteService, CredentialService credentialService) {
+      this.encryptionService = encryptionService;
       this.fileService = fileService;
       this.userService = userService;
       this.noteService = noteService;
@@ -59,6 +58,7 @@ public class NoteController {
       model.addAttribute("files", this.fileService.getFilesByUserId(userid));
       model.addAttribute("notes", this.noteService.getNotesByUserId(userid));
       model.addAttribute("credentials", this.credentialService.getCredentialsByUserId(userid));
+      model.addAttribute("encryptionService",encryptionService);
 
       return "result";
    }
@@ -123,6 +123,7 @@ public class NoteController {
       model.addAttribute("files", this.fileService.getFilesByUserId(userid));
       model.addAttribute("notes", this.noteService.getNotesByUserId(userid));
       model.addAttribute("credentials", this.credentialService.getCredentialsByUserId(userid));
+      model.addAttribute("encryptionService",encryptionService);
 
       return "result";
    }

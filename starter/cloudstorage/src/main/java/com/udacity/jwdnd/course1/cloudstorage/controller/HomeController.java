@@ -3,10 +3,7 @@ package com.udacity.jwdnd.course1.cloudstorage.controller;
 import com.udacity.jwdnd.course1.cloudstorage.model.Credential;
 import com.udacity.jwdnd.course1.cloudstorage.model.File;
 import com.udacity.jwdnd.course1.cloudstorage.model.Note;
-import com.udacity.jwdnd.course1.cloudstorage.services.CredentialService;
-import com.udacity.jwdnd.course1.cloudstorage.services.FileService;
-import com.udacity.jwdnd.course1.cloudstorage.services.NoteService;
-import com.udacity.jwdnd.course1.cloudstorage.services.UserService;
+import com.udacity.jwdnd.course1.cloudstorage.services.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -24,16 +21,24 @@ import java.util.List;
 @Controller
 public class HomeController {
 
+   private EncryptionService encryptionService;
+
    private FileService fileService;
    private UserService userService;
    private NoteService noteService;
    private CredentialService credentialService;
 
-   public HomeController(FileService fileService, UserService userService, NoteService noteService, CredentialService credentialService) {
+   public HomeController(EncryptionService encryptionService, FileService fileService, UserService userService, NoteService noteService, CredentialService credentialService) {
+      this.encryptionService = encryptionService;
       this.fileService = fileService;
       this.userService = userService;
       this.noteService = noteService;
       this.credentialService = credentialService;
+   }
+
+   @GetMapping("/logout")
+   public String logoutView(){
+      return "redirect:/login?logout";
    }
 
    @GetMapping
@@ -51,18 +56,9 @@ public class HomeController {
       model.addAttribute("files", this.fileService.getFilesByUserId(userid));
       model.addAttribute("notes", this.noteService.getNotesByUserId(userid));
       model.addAttribute("credentials", this.credentialService.getCredentialsByUserId(userid));
+      model.addAttribute("encryptionService",encryptionService);
 
       return "home";
    }
-
-   @RequestMapping(value="/logout", method = RequestMethod.GET)
-   public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
-      Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-      if (auth != null){
-         new SecurityContextLogoutHandler().logout(request, response, auth);
-      }
-      return "redirect:/login?logout"; //You can redirect wherever you want, but generally it's a good practice to show login screen again.
-   }
-
 
 }
