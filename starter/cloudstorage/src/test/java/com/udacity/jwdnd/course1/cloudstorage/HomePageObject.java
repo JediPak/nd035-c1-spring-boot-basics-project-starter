@@ -79,6 +79,12 @@ public class HomePageObject {
    @FindBy(className="credential-password-view")
    private List <WebElement> credentialPasswordView;
 
+   @FindBy(className = "credentialEdit-btn")
+   private List<WebElement> credentialEdit;
+
+   @FindBy(className = "credentialDelete-btn")
+   private List<WebElement> credentialDelete;
+
 
    private JavascriptExecutor jE;
 
@@ -101,7 +107,7 @@ public class HomePageObject {
       jE.executeScript("arguments[0].click();", noteSave);
    }
 
-   /*
+
    public void editNote(Integer index, String title, String description){
 
 
@@ -113,21 +119,17 @@ public class HomePageObject {
       jE.executeScript("arguments[0].click();", noteSave);
    }
 
-    */
 
-
-   /*public void deleteNote(Integer index){
+   public void deleteNote(Integer index){
       jE.executeScript("arguments[0].click();", noteDelete.get(index));
    }
-
-    */
 
    public List<List<String>> viewNote(){
       List<List<String>> viewNotes = new ArrayList <>();
       String title, description;
 
-      System.out.println("noteTitleView.toString(): "+noteTitleView.toString());
       System.out.println("noteTitleView.size(): "+noteTitleView.size());
+      //System.out.println("noteTitleView.get(0).getText(): "+noteTitleView.get(0).getText());
 
       //length of noteTitleView and noteDescriptionView should be equal
       for(int i = 0 ; i < noteTitleView.size() ; i ++){
@@ -145,13 +147,20 @@ public class HomePageObject {
    }
 
    public void createCredential(String url, String username, String password){
-/*
-String url = "url";
-      String username = "username";
-      String password = "password";
- */
+
       jE.executeScript("arguments[0].click();", credentialTab);
       jE.executeScript("arguments[0].click();", credentialCreate);
+
+      jE.executeScript("arguments[0].value='" + url + "';", credentialUrl);
+      jE.executeScript("arguments[0].value='" + username + "';", credentialUsername);
+      jE.executeScript("arguments[0].value='" + password + "';", credentialPassword);
+      jE.executeScript("arguments[0].click();", credentialSave);
+   }
+
+   public void editCredential(Integer index, String url, String username, String password){
+
+      jE.executeScript("arguments[0].click();", credentialTab);
+      jE.executeScript("arguments[0].click();", credentialEdit.get(index));
 
       jE.executeScript("arguments[0].value='" + url + "';", credentialUrl);
       jE.executeScript("arguments[0].value='" + username + "';", credentialUsername);
@@ -163,6 +172,7 @@ String url = "url";
       List<List<String>> viewCredentials = new ArrayList <>();
 
       //length of credentialUrlView, credentialUsernameView, and credentialPasswordView should be equal
+      System.out.println("credentialUrlView.size(): "+credentialUrlView.size());
       for(int i = 0 ; i < credentialUrlView.size() ; i ++){
          List<String> viewCredential = new ArrayList <>();
          viewCredential.add(credentialUrlView.get(i).getText());
@@ -171,5 +181,9 @@ String url = "url";
          viewCredentials.add(viewCredential);
       }
       return viewCredentials;
+   }
+
+   public void deleteCredential(Integer index){
+      jE.executeScript("arguments[0].click();", credentialDelete.get(index));
    }
 }
