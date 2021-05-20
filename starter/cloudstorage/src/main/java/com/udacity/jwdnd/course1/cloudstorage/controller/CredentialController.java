@@ -59,12 +59,13 @@ public class CredentialController {
          System.out.println("deletedNum: " + deletedNum);
       }
 
+      /*
       model.addAttribute("users", this.userService.getUserById(userid));
       model.addAttribute("files", this.fileService.getFilesByUserId(userid));
       model.addAttribute("notes", this.noteService.getNotesByUserId(userid));
       model.addAttribute("credentials", this.credentialService.getCredentialsByUserId(userid));
       model.addAttribute("encryptionService",encryptionService);
-
+      */
       return "result";
    }
 
@@ -127,12 +128,12 @@ public class CredentialController {
          }
       }
 
-      model.addAttribute("users", this.userService.getUserById(userid));
+      /*model.addAttribute("users", this.userService.getUserById(userid));
       model.addAttribute("files", this.fileService.getFilesByUserId(userid));
       model.addAttribute("notes", this.noteService.getNotesByUserId(userid));
       model.addAttribute("credentials", this.credentialService.getCredentialsByUserId(userid));
       model.addAttribute("encryptionService",encryptionService);
-
+      */
       return "result";
    }
 

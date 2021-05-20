@@ -14,15 +14,15 @@
             <!--Success: changes were saved-->
             <div th:if="${successfulChange}" class="alert alert-success fill-parent">
                 <h1 class="display-5">Success</h1>
-                <span th:text="${successMsg}">Your changes were successfully saved. </span>
-                <span>Click <a th:href="@{/home}">here</a> to continue.</span>
+                <span class="result-msg" th:text="${successMsg}">Your changes were successfully saved. </span>
+                <span>Click <a class="continue-home" th:href="@{/home}">here</a> to continue.</span>
             </div>
 
             <!--Error: changes weren't saved-->
             <div th:unless="${successfulChange}" class="alert alert-danger fill-parent">
                 <h1 class="display-5">Error</h1>
-                <span th:text="${errorMsg}">Your changes were not saved. </span>
-                <span>Click <a th:href="@{/home}">here</a> to continue.</span>
+                <span class="result-msg" th:text="${errorMsg}">Your changes were not saved. </span>
+                <span>Click <a class="continue-home" th:href="@{/home}">here</a> to continue.</span>
             </div>
 
             <!--example error message-->

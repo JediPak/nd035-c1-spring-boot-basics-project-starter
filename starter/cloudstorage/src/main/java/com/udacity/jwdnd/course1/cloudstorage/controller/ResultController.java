@@ -27,6 +27,7 @@ public class ResultController {
 
    @GetMapping()
    public String getResult(Authentication authentication, Model model){
+      /*
       String username = authentication.getName();
       Integer userid = userService.getIdByUsername(username);
 
@@ -35,7 +36,7 @@ public class ResultController {
       model.addAttribute("notes", this.noteService.getNotesByUserId(userid));
       model.addAttribute("credentials", this.credentialService.getCredentialsByUserId(userid));
       model.addAttribute("encryptionService",encryptionService);
-
+      */
       return "result";
    }
 

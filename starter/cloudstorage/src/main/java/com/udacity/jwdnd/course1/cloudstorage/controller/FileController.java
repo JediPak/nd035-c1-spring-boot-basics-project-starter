@@ -114,11 +114,13 @@ public class FileController {
          System.out.println("deletedNum: " + deletedNum);
       }
 
+      /*
       model.addAttribute("users", this.userService.getUserById(userid));
       model.addAttribute("files", this.fileService.getFilesByUserId(userid));
       model.addAttribute("notes", this.noteService.getNotesByUserId(userid));
       model.addAttribute("credentials", this.credentialService.getCredentialsByUserId(userid));
       model.addAttribute("encryptionService",encryptionService);
+      */
 
       return "result";
    }
@@ -189,12 +191,13 @@ public class FileController {
          }
       }
 
+      /*
       model.addAttribute("users", this.userService.getUserById(userid));
       model.addAttribute("files", this.fileService.getFilesByUserId(userid));
       model.addAttribute("notes", this.noteService.getNotesByUserId(userid));
       model.addAttribute("credentials", this.credentialService.getCredentialsByUserId(userid));
       model.addAttribute("encryptionService",encryptionService);
-
+      */
       return "result";
    }
 

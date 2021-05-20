@@ -13,10 +13,14 @@
             <h1 class="display-5">Login</h1>
 
             <form action="#" th:action="@{/login}" method="POST">
-                <div id="error-msg" th:if="${param.error}" class="alert alert-danger">
+                <div id="error-msg"
+                     th:if="${param.error}"
+                     class="alert alert-danger">
                     Invalid username or password
                 </div>
-                <div id="logout-msg" th:if="${param.logout}" class="alert alert-dark">
+                <div id="logout-msg"
+                     th:if="${param.logout}"
+                     class="alert alert-dark">
                     You have been logged out
                 </div>
 
@@ -29,7 +33,7 @@
                     <input type="password" class="form-control" name="password" id="inputPassword" placeholder="Enter Password" maxlength="20" required>
                 </div>
 
-                <button type="submit" class="btn btn-primary">Login</button>
+                <button id="login-btn" type="submit" class="btn btn-primary">Login</button>
             </form>
 
             <div class="form-group" style="margin-top: 0.5em;">
