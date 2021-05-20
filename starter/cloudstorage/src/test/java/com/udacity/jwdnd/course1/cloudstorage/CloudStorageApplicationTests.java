@@ -83,7 +83,7 @@ class CloudStorageApplicationTests {
 	void successLoginAndLogout() throws InterruptedException {
 		String firstname = "firstname";
 		String lastname = "lastname";
-		String username = "username";
+		String username = "username1";
 		String password = "password";
 		loginPO = new LoginPageObject(driver);
 		boolean atLoginPage = loginPO.atLoginPage();
@@ -124,18 +124,18 @@ class CloudStorageApplicationTests {
 	********************************************
 	 */
 
+	/*
 	//1
 	// Write a Selenium test that logs in an existing user,
 	// creates a note and verifies that the note details are visible in the note list.
 	@Test
 	void createNote() throws InterruptedException {
 
-		/*
-		* Logging in
-		*/
+		//Logging in
+
 		String firstname = "firstname";
 		String lastname = "lastname";
-		String username = "username";
+		String username = "username2";
 		String password = "password";
 		loginPO = new LoginPageObject(driver);
 		boolean atLoginPage = loginPO.atLoginPage();
@@ -162,17 +162,15 @@ class CloudStorageApplicationTests {
 		// verifies that they can access the home page,
 		assertEquals("Home", driver.getTitle());
 
-		/*
-		 * Create Note
-		 */
+		//Create Note
+
 		String title = "title";
 		String description = "description -thing1 -thing2";
 		homePO = new HomePageObject(driver);
 		homePO.createNote(title, description);
 
-		/*
-		 * verifies that the note details are visible in the note list
-		 */
+		//verifies that the note details are visible in the note list
+
 		resultPO = new ResultPageObject(driver);
 		resultPO.getResultMsg();
 		assertTrue(resultPO.getResultMsg().contains("Success"));
@@ -195,12 +193,11 @@ class CloudStorageApplicationTests {
 
 	@Test
 	void createNoteLogout_loggingEditNote() throws InterruptedException {
-		/*
-		 * Logging in
-		 */
+		//Logging in
+
 		String firstname = "firstname";
 		String lastname = "lastname";
-		String username = "username";
+		String username = "username3";
 		String password = "password";
 		loginPO = new LoginPageObject(driver);
 		boolean atLoginPage = loginPO.atLoginPage();
@@ -227,17 +224,15 @@ class CloudStorageApplicationTests {
 		// verifies that they can access the home page,
 		assertEquals("Home", driver.getTitle());
 
-		/*
-		 * Create Note
-		 */
+		//Create Note
+
 		String title = "title";
 		String description = "description -thing1 -thing2";
 		homePO = new HomePageObject(driver);
 		homePO.createNote(title, description);
 
-		/*
-		 * verifies that the note details are visible in the note list
-		 */
+		//verifies that the note details are visible in the note list
+
 		resultPO = new ResultPageObject(driver);
 		resultPO.getResultMsg();
 		assertTrue(resultPO.getResultMsg().contains("Success"));
@@ -271,7 +266,7 @@ class CloudStorageApplicationTests {
 		assertTrue(viewNote.get(0).get(1).equals(description));
 
 	}
-
+*/
 	//3
 	// Write a Selenium test that logs in an existing user with existing notes,
 	// clicks the delete note button on an existing note,
@@ -283,7 +278,7 @@ class CloudStorageApplicationTests {
 		 */
 		String firstname = "firstname";
 		String lastname = "lastname";
-		String username = "username";
+		String username = "username4";
 		String password = "password";
 		loginPO = new LoginPageObject(driver);
 		boolean atLoginPage = loginPO.atLoginPage();
@@ -375,17 +370,17 @@ class CloudStorageApplicationTests {
 	 ********************************************
 	 */
 
+	/*
 	//1
 	// Write a Selenium test that logs in an existing user,
 	// creates a credential and verifies that the credential details are visible in the credential list.
 	@Test
 	void createCredentialLogout() throws InterruptedException {
-		/*
-		 * Logging in
-		 */
+		//Logging in
+
 		String firstname = "firstname";
 		String lastname = "lastname";
-		String username = "username";
+		String username = "username5";
 		String password = "password";
 		loginPO = new LoginPageObject(driver);
 		boolean atLoginPage = loginPO.atLoginPage();
@@ -412,18 +407,16 @@ class CloudStorageApplicationTests {
 		// verifies that they can access the home page,
 		assertEquals("Home", driver.getTitle());
 
-		/*
-		 * Create Note
-		 */
+		//Create Note
+
 		String url = "url";
 		String username_c = "username";
 		String password_c = "password";
 		homePO = new HomePageObject(driver);
 		homePO.createCredential(url, username_c, password_c);
 
-		/*
-		 * verifies that the note details are visible in the note list
-		 */
+		//verifies that the note details are visible in the note list
+
 		resultPO = new ResultPageObject(driver);
 		resultPO.getResultMsg();
 		assertTrue(resultPO.getResultMsg().contains("Success"));
@@ -435,42 +428,7 @@ class CloudStorageApplicationTests {
 		assertTrue(viewCredential.get(0).get(0).equals(url));
 		assertTrue(viewCredential.get(0).get(1).equals(username_c));
 		//assertTrue(viewCredential.get(0).get(1).equals(password_c)); --can't compare unencrypted password and encrypted password
-/*
-		title = "title edited";
-		description = "description edited -thing1_edited -thing2_edited";
-		//loging out
-		homePO.logout();
-		//2
-		// Write a Selenium test that logs in an existing user with existing notes,
-		loginPO.login(username, password);
 
-		// clicks the edit note button on an existing note,
-		// changes the note data, saves the changes,
-		homePO.editNote(0, title, description);
-
-		// and verifies that the changes appear in the note list.
-		resultPO.getResultMsg();
-		assertTrue(resultPO.getResultMsg().contains("Success"));
-		resultPO.continueToHome();
-		Thread.sleep(2000);
-		viewNote = homePO.viewNote();
-		assertTrue(viewNote.get(0).get(0).equals(title));
-		assertTrue(viewNote.get(0).get(1).equals(description));
-
-		//3
-		homePO.logout();
-		// Write a Selenium test that logs in an existing user with existing notes,
-		loginPO.login(username, password);
-		// clicks the delete note button on an existing note,
-		homePO.deleteNote(0);
-		// and verifies that the note no longer appears in the note list.
-		resultPO.getResultMsg();
-		assertTrue(resultPO.getResultMsg().contains("Success"));
-		resultPO.continueToHome();
-		Thread.sleep(2000);
-		viewNote = homePO.viewNote();
-		assertTrue(viewNote.size() == 0);
-*/
 	}
 
 	//2
@@ -480,12 +438,95 @@ class CloudStorageApplicationTests {
 	// and verifies that the changes appear in the credential list.
 	@Test
 	void createCredentialLogout_loggingInEditCredential() throws InterruptedException {
+		// Logging in
+		String firstname = "firstname";
+		String lastname = "lastname";
+		String username = "username6";
+		String password = "password";
+		loginPO = new LoginPageObject(driver);
+		boolean atLoginPage = loginPO.atLoginPage();
+		//verifying you're at login
+		assertEquals(true, atLoginPage);
+
+		//logging in
+		loginPO.signup();
+		signupPO = new SignupPageObject(driver);
+		boolean atSignupPage = signupPO.atSignupPage();
+		//verifying you're at signin page
+		assertEquals(true, atSignupPage);
+
+		//signs up a new user,
+		signupPO.signup(firstname, lastname, username, password);
+
+		//(success signup page to login page redirect sleeps for 2000ms)
+		Thread.sleep(3000);
+
+		// logs that user in,
+		loginPO.login(username, password);
+
+		Thread.sleep(1000);
+		// verifies that they can access the home page,
+		assertEquals("Home", driver.getTitle());
+
+		//Create Note
+
+		String url = "url";
+		String username_c = "username";
+		String password_c = "password";
+		homePO = new HomePageObject(driver);
+		homePO.createCredential(url, username_c, password_c);
+
+		//verifies that the note details are visible in the note list
+
+		resultPO = new ResultPageObject(driver);
+		resultPO.getResultMsg();
+		assertTrue(resultPO.getResultMsg().contains("Success"));
+
+		resultPO.continueToHome();
+		Thread.sleep(2000);
+
+		List<List<String>> viewCredential = homePO.viewCredential();
+		assertTrue(viewCredential.get(0).get(0).equals(url));
+		assertTrue(viewCredential.get(0).get(1).equals(username_c));
+		//assertTrue(viewCredential.get(0).get(1).equals(password_c)); --can't compare unencrypted password and encrypted password
+
+		url = "url.edited";
+		username_c = "usernameEdited";
+		password_c = "passwordEdited";
+		homePO.logout();
+		//2
+		// Write a Selenium test that logs in an existing user with existing notes,
+		loginPO.login(username, password);
+
+		// clicks the edit note button on an existing note,
+		// changes the note data, saves the changes,
+		homePO.editCredential(0, url, username_c, password_c);
+
+		// and verifies that the changes appear in the note list.
+		resultPO.getResultMsg();
+		assertTrue(resultPO.getResultMsg().contains("Success"));
+		resultPO.continueToHome();
+		Thread.sleep(2000);
+
+		viewCredential = homePO.viewCredential();
+		assertTrue(viewCredential.get(0).get(0).equals(url));
+		assertTrue(viewCredential.get(0).get(1).equals(username_c));
+
+
+	}
+*/
+	//3
+	// Write a Selenium test that logs in an existing user with existing credentials,
+	// clicks the delete credential button on an existing credential,
+	// and verifies that the credential no longer appears in the credential list.
+	@Test
+	void createCredentialLogout_loggingInEditCredential_loggingInDeleteCredential() throws InterruptedException {
 		/*
 		 * Logging in
 		 */
 		String firstname = "firstname";
 		String lastname = "lastname";
-		String username = "username";
+		String username = "username7";
 		String password = "password";
 		loginPO = new LoginPageObject(driver);
 		boolean atLoginPage = loginPO.atLoginPage();
@@ -540,6 +581,7 @@ class CloudStorageApplicationTests {
 		username_c = "usernameEdited";
 		password_c = "passwordEdited";
 		homePO.logout();
+
 		//2
 		// Write a Selenium test that logs in an existing user with existing notes,
 		loginPO.login(username, password);
@@ -558,103 +600,19 @@ class CloudStorageApplicationTests {
 		assertTrue(viewCredential.get(0).get(0).equals(url));
 		assertTrue(viewCredential.get(0).get(1).equals(username_c));
 
-
-	}
-	//Write a Selenium test that logs in an existing user with existing credentials,
-	// clicks the delete credential button on an existing credential,
-	// and verifies that the credential no longer appears in the credential list.
-	@Test
-	void createCredentialLogout_loggingInEditCredential_loggingInDeleteCredential() throws InterruptedException {
-		/*
-		 * Logging in
-		 */
-		String firstname = "firstname";
-		String lastname = "lastname";
-		String username = "username";
-		String password = "password";
-		loginPO = new LoginPageObject(driver);
-		boolean atLoginPage = loginPO.atLoginPage();
-		//verifying you're at login
-		assertEquals(true, atLoginPage);
-
-		//logging in
-		loginPO.signup();
-		signupPO = new SignupPageObject(driver);
-		boolean atSignupPage = signupPO.atSignupPage();
-		//verifying you're at signin page
-		assertEquals(true, atSignupPage);
-
-		//signs up a new user,
-		signupPO.signup(firstname, lastname, username, password);
-
-		//(success signup page to login page redirect sleeps for 2000ms)
-		Thread.sleep(3000);
-
-		// logs that user in,
-		loginPO.login(username, password);
-
-		Thread.sleep(1000);
-		// verifies that they can access the home page,
-		assertEquals("Home", driver.getTitle());
-
-		/*
-		 * Create Note
-		 */
-		String url = "url";
-		String username_c = "username";
-		String password_c = "password";
-		homePO = new HomePageObject(driver);
-		homePO.createCredential(url, username_c, password_c);
-
-		/*
-		 * verifies that the note details are visible in the note list
-		 */
-		resultPO = new ResultPageObject(driver);
-		resultPO.getResultMsg();
-		assertTrue(resultPO.getResultMsg().contains("Success"));
-
-		resultPO.continueToHome();
-		Thread.sleep(2000);
-
-		List<List<String>> viewCredential = homePO.viewCredential();
-		assertTrue(viewCredential.get(0).get(0).equals(url));
-		assertTrue(viewCredential.get(0).get(1).equals(username_c));
-		//assertTrue(viewCredential.get(0).get(1).equals(password_c)); --can't compare unencrypted password and encrypted password
-/*
-		title = "title edited";
-		description = "description edited -thing1_edited -thing2_edited";
-		//loging out
-		homePO.logout();
-		//2
-		// Write a Selenium test that logs in an existing user with existing notes,
-		loginPO.login(username, password);
-
-		// clicks the edit note button on an existing note,
-		// changes the note data, saves the changes,
-		homePO.editNote(0, title, description);
-
-		// and verifies that the changes appear in the note list.
-		resultPO.getResultMsg();
-		assertTrue(resultPO.getResultMsg().contains("Success"));
-		resultPO.continueToHome();
-		Thread.sleep(2000);
-		viewNote = homePO.viewNote();
-		assertTrue(viewNote.get(0).get(0).equals(title));
-		assertTrue(viewNote.get(0).get(1).equals(description));
-
 		//3
 		homePO.logout();
 		// Write a Selenium test that logs in an existing user with existing notes,
 		loginPO.login(username, password);
 		// clicks the delete note button on an existing note,
-		homePO.deleteNote(0);
+		homePO.deleteCredential(0);
 		// and verifies that the note no longer appears in the note list.
 		resultPO.getResultMsg();
 		assertTrue(resultPO.getResultMsg().contains("Success"));
 		resultPO.continueToHome();
 		Thread.sleep(2000);
-		viewNote = homePO.viewNote();
-		assertTrue(viewNote.size() == 0);
-*/
+		viewCredential = homePO.viewCredential();
+		assertTrue(viewCredential.size() == 0);
+
 	}
 }

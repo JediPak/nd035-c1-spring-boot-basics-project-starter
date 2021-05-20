@@ -41,6 +41,9 @@ public class EncryptionService {
     }
 
     public String decryptValue(String data, String key) {
+
+        System.out.println("data: "+data);
+        System.out.println("key: "+key);
         byte[] decryptedValue = null;
 
         try {

@@ -83,9 +83,14 @@ public class CredentialService {
 
       credential.setUrl(credential.getUrl());
       credential.setUsername(credential.getUsername());
-      //String encryptedPassword = encryptionService.encryptValue(credential.getPassword(), credential.getKey());
-      //credential.setPassword(encryptedPassword);
-      credential.setPassword(credential.getPassword());
+
+      String key = getCredentialsById(credential.getCredentialid()).getKey();
+      //not working
+      String encryptedPassword = encryptionService.encryptValue(credential.getPassword(), key);
+      credential.setPassword(encryptedPassword);
+
+      //temporary solution
+      //credential.setPassword(credential.getPassword());
 
       return credentialMapper.updateCredential(credential);
 
@@ -103,6 +108,10 @@ public class CredentialService {
          return new ArrayList <Credential>();
       }
       return credentialList;
+   }
+
+   public Credential getCredentialsById(Integer credentialid){
+      return credentialMapper.getCredentialById(credentialid);
    }
 
 }

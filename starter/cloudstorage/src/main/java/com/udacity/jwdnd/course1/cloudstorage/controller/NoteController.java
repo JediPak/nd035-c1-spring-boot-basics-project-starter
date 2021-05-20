@@ -54,13 +54,13 @@ public class NoteController {
          System.out.println("deletedNum: " + deletedNum);
       }
 
-      /*
+
       model.addAttribute("users", this.userService.getUserById(userid));
       model.addAttribute("files", this.fileService.getFilesByUserId(userid));
       model.addAttribute("notes", this.noteService.getNotesByUserId(userid));
       model.addAttribute("credentials", this.credentialService.getCredentialsByUserId(userid));
       model.addAttribute("encryptionService",encryptionService);
-      */
+
       return "result";
    }
 
@@ -120,13 +120,13 @@ public class NoteController {
          }
       }
 
-      /*
+
       model.addAttribute("users", this.userService.getUserById(userid));
       model.addAttribute("files", this.fileService.getFilesByUserId(userid));
       model.addAttribute("notes", this.noteService.getNotesByUserId(userid));
       model.addAttribute("credentials", this.credentialService.getCredentialsByUserId(userid));
       model.addAttribute("encryptionService",encryptionService);
-      */
+
       return "result";
    }
 
