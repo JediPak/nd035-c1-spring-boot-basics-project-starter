@@ -9,7 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
+import org.apache.commons.validator.UrlValidator;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -77,39 +77,43 @@ public class CredentialController {
       Integer userid = userService.getIdByUsername(username);
       Integer status = -1;
 
+      String[] schemes = {"http","https"};
       String c_url = credential.getUrl();
       String c_username = credential.getUsername();
       String c_password = credential.getPassword();
-      //UrlValidator urlValidator = new UrlValidator(schemes);
+      UrlValidator urlValidator = new UrlValidator(schemes);
       //Credential credential = new Credential(null, filename, contenttype, filesize, userid, fis);
       System.out.println("credential: " +credential.toString());
-
+      boolean usernameAvailable = credentialService.usernameAvailable(c_username, userid);
       //creating new credential
       if(credential.getCredentialid() == 0) {
          try {
             //setting userid for the newly created note, since it shouldn't be defined yet
             credential.setUserid(userid);
 
-            boolean usernameAvailable = credentialService.usernameAvailable(c_username, userid);
-
             System.out.println("usernameAvailable: "+usernameAvailable);
+            System.out.println("urlValidator.isValid(c_url): "+urlValidator.isValid(c_url));
             if (!usernameAvailable){
-               System.out.println("credential already exists");
+               System.out.println("username is not available");
                model.addAttribute("successfulChange", false);
                model.addAttribute("errorMsg", "Error: creating credential was not successful.(Username is already in use)");
-            } else {
+            } /*else if (!urlValidator.isValid(c_url)){
+               System.out.println("Url is not in correct format");
+               model.addAttribute("successfulChange", false);
+               model.addAttribute("errorMsg", "Error: creating credential was not successful.(Url is not in correct format)");
+            }*/ else {
                status = credentialService.createCredential(credential);
-
-               if (usernameAvailable && status > 0 /*&& urlValidator.isValid()*/) {
+               if (status > 0) {
                   System.out.println("credential created (successful): " + credential.toString());
                   model.addAttribute("successfulChange", true);
                   model.addAttribute("successMsg", "Success: creating credential was successful.");
                } else {
-                  System.out.println("credential created (successful--not status has 0 or neg number("+status+")): " + credential.toString());
+                  System.out.println("credential created (successful--not status has 0 or neg number(" + status + ")): " + credential.toString());
                   model.addAttribute("successfulChange", false);
                   model.addAttribute("errorMsg", "Error: creating credential was not successful. (Error in DB)");
                }
             }
+
          } catch (Exception e) {
             e.printStackTrace();
             System.out.println("credential created (error): " + credential.toString());
@@ -121,15 +125,25 @@ public class CredentialController {
       //updating existing credential
       } else {
          try {
-            status = credentialService.updateCredential(credential);
-            if (status > 0) {
-               System.out.println("credential updated: " + credential.toString());
-               model.addAttribute("successfulChange", true);
-               model.addAttribute("successMsg", "Success: updating credential was successful.");
-            } else {
-               System.out.println("credential updated (successful--not status has 0 or neg number("+status+")): " + credential.toString());
+            if (!usernameAvailable){
+               System.out.println("username is not available");
                model.addAttribute("successfulChange", false);
-               model.addAttribute("errorMsg", "Error: updating credential was not successful. (Error in DB)");
+               model.addAttribute("errorMsg", "Error: updating credential was not successful.(Username is already in use)");
+            } /*else if (!urlValidator.isValid(c_url)){
+               System.out.println("Url is not in correct format");
+               model.addAttribute("successfulChange", false);
+               model.addAttribute("errorMsg", "Error: updating credential was not successful.(Url is not in correct format)");
+            }*/ else {
+               status = credentialService.updateCredential(credential);
+               if (status > 0) {
+                  System.out.println("credential updated: " + credential.toString());
+                  model.addAttribute("successfulChange", true);
+                  model.addAttribute("successMsg", "Success: updating credential was successful.");
+               } else {
+                  System.out.println("credential updated (successful--not status has 0 or neg number("+status+")): " + credential.toString());
+                  model.addAttribute("successfulChange", false);
+                  model.addAttribute("errorMsg", "Error: updating credential was not successful. (Error in DB)");
+               }
             }
          } catch (Exception e) {
             e.printStackTrace();

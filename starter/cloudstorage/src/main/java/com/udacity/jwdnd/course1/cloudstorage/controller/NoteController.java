@@ -75,16 +75,14 @@ public class NoteController {
       System.out.println("note.toString(): " +note.toString());
       System.out.println("note.getNoteid(): "+note.getNoteid());
 
+      //checking if note notetitle already exists
+      boolean titleAvailable = noteService.titleAvailable(n_notetitle, userid);
+
       //creating new note
       if(note.getNoteid() == 0) {
          try {
             //setting userid for the newly created note, since it shouldnt be defined yet
             note.setUserid(userid);
-
-            String notetitle = note.getNotetitle();
-
-            //checking if note notetitle already exists
-            boolean titleAvailable = noteService.titleAvailable(notetitle, userid);
 
             if(!titleAvailable){
                System.out.println("note already exists by notetitle");
@@ -115,15 +113,22 @@ public class NoteController {
       //updating existing credential
       } else {
          try {
-            status = noteService.updateNote(note);
-            if (status > 0) {
-               System.out.println("note updated: " + note.toString());
-               model.addAttribute("successfulChange", true);
-               model.addAttribute("successMsg", "Success: updating note was successful.");
-            } else {
-               System.out.println("note created (successful, but DB gave neg number ("+status+")): " + note.toString());
+            if(!titleAvailable){
+               System.out.println("note already exists by notetitle");
                model.addAttribute("successfulChange", false);
-               model.addAttribute("errorMsg", "Error: creating note was not successful. (Error in DB)");
+               model.addAttribute("errorMsg", "Error: updating note was not successful.(Title is already being used)");
+            }
+            else {
+               status = noteService.updateNote(note);
+               if (status > 0) {
+                  System.out.println("note updated: " + note.toString());
+                  model.addAttribute("successfulChange", true);
+                  model.addAttribute("successMsg", "Success: updating note was successful.");
+               } else {
+                  System.out.println("note created (successful, but DB gave neg number ("+status+")): " + note.toString());
+                  model.addAttribute("successfulChange", false);
+                  model.addAttribute("errorMsg", "Error: creating note was not successful. (Error in DB)");
+               }
             }
          } catch (Exception e) {
             e.printStackTrace();
