@@ -44,8 +44,8 @@ public class NoteService {
       return noteList;
    }
 
-   public boolean titleAvailable(String notetitle){
-      List<Note> noteList = noteMapper.alreadyExist(notetitle);
+   public boolean titleAvailable(String notetitle, Integer userid){
+      List<Note> noteList = noteMapper.alreadyExist(notetitle, userid);
       System.out.println("noteList: "+noteList);
       System.out.println("noteList (all): "+noteMapper.getNote());
       return noteList.isEmpty();

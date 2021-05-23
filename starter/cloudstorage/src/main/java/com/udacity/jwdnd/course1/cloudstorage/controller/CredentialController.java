@@ -90,22 +90,25 @@ public class CredentialController {
             //setting userid for the newly created note, since it shouldn't be defined yet
             credential.setUserid(userid);
 
-            status = credentialService.createCredential(credential);
-            /*boolean usernameAvailable = credentialService.usernameAvailable(username);
+            boolean usernameAvailable = credentialService.usernameAvailable(c_username, userid);
+
             System.out.println("usernameAvailable: "+usernameAvailable);
             if (!usernameAvailable){
                System.out.println("credential already exists");
                model.addAttribute("successfulChange", false);
                model.addAttribute("errorMsg", "Error: creating credential was not successful.(Username is already in use)");
-            }
-            else*/ if (/*usernameAvailable &&*/ status > 0 /*&& urlValidator.isValid()*/) {
-               System.out.println("credential created (successful): " + credential.toString());
-               model.addAttribute("successfulChange", true);
-               model.addAttribute("successMsg", "Success: creating credential was successful.");
             } else {
-               System.out.println("credential created (successful--not status has 0 or neg number("+status+")): " + credential.toString());
-               model.addAttribute("successfulChange", false);
-               model.addAttribute("errorMsg", "Error: creating credential was not successful. (Error in DB)");
+               status = credentialService.createCredential(credential);
+
+               if (usernameAvailable && status > 0 /*&& urlValidator.isValid()*/) {
+                  System.out.println("credential created (successful): " + credential.toString());
+                  model.addAttribute("successfulChange", true);
+                  model.addAttribute("successMsg", "Success: creating credential was successful.");
+               } else {
+                  System.out.println("credential created (successful--not status has 0 or neg number("+status+")): " + credential.toString());
+                  model.addAttribute("successfulChange", false);
+                  model.addAttribute("errorMsg", "Error: creating credential was not successful. (Error in DB)");
+               }
             }
          } catch (Exception e) {
             e.printStackTrace();

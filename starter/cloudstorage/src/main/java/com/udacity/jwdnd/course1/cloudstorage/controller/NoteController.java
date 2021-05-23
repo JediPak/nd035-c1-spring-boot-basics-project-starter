@@ -80,23 +80,29 @@ public class NoteController {
          try {
             //setting userid for the newly created note, since it shouldnt be defined yet
             note.setUserid(userid);
-            status = noteService.createNote(note);
+
             String notetitle = note.getNotetitle();
+
             //checking if note notetitle already exists
-            /*boolean titleAvailable = noteService.titleAvailable(notetitle);
+            boolean titleAvailable = noteService.titleAvailable(notetitle, userid);
+
             if(!titleAvailable){
                System.out.println("note already exists by notetitle");
                model.addAttribute("successfulChange", false);
                model.addAttribute("errorMsg", "Error: creating note was not successful.(Title is already being used)");
             }
-            else */if (/*titleAvailable &&*/ status > 0) {
-               System.out.println("note created (successful): " + note.toString());
-               model.addAttribute("successfulChange", true);
-               model.addAttribute("successMsg", "Success: creating note was successful.");
-            } else {
-               System.out.println("note created (successful, but DB gave neg number ("+status+")): " + note.toString());
-               model.addAttribute("successfulChange", false);
-               model.addAttribute("errorMsg", "Error: creating note was not successful. (Error in DB)");
+            else {
+               status = noteService.createNote(note);
+
+               if (titleAvailable && status > 0) {
+                  System.out.println("note created (successful): " + note.toString());
+                  model.addAttribute("successfulChange", true);
+                  model.addAttribute("successMsg", "Success: creating note was successful.");
+               } else {
+                  System.out.println("note created (successful, but DB gave neg number ("+status+")): " + note.toString());
+                  model.addAttribute("successfulChange", false);
+                  model.addAttribute("errorMsg", "Error: creating note was not successful. (Error in DB)");
+               }
             }
 
          } catch (Exception e) {

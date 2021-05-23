@@ -46,8 +46,8 @@ public class CredentialService {
       return null;
    }
 
-   public boolean usernameAvailable(String username){
-      List<Credential> credentialList = credentialMapper.usernameAvailable(username);
+   public boolean usernameAvailable(String username, Integer userid){
+      List<Credential> credentialList = credentialMapper.usernameAvailable(username, userid);
       System.out.println("credentialList: "+credentialList);
       System.out.println("credentialList (all): "+credentialMapper.getCredential());
       return credentialList.isEmpty();
