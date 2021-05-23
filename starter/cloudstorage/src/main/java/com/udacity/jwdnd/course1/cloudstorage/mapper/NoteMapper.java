@@ -15,6 +15,10 @@ public interface NoteMapper {
    @Select("SELECT * FROM NOTES WHERE noteid=#{noteid}")
    public Note getNoteById(Integer noteid);
 
+   @Select("SELECT * FROM NOTES WHERE " +
+           "notetitle=#{notetitle} AND userid=#{userid}")
+   public List<Note> alreadyExist(String notetitle);
+
    @Select("SELECT * FROM NOTES WHERE userid=#{userid}")
    public List<Note> getNoteByUserId(Integer userid);
 

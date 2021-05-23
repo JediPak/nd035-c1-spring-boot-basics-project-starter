@@ -45,7 +45,7 @@ public class UserService {
 
    public Integer getIdByUsername(String username){
       User user = userMapper.getUserByUsername(username);
-      System.out.println("User: "+user.toString());
+      //System.out.println("User: "+user.toString());
       return user.getUserid();
    }
 

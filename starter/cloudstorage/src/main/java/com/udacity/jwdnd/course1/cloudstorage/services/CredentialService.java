@@ -2,7 +2,6 @@ package com.udacity.jwdnd.course1.cloudstorage.services;
 
 import com.udacity.jwdnd.course1.cloudstorage.mapper.CredentialMapper;
 import com.udacity.jwdnd.course1.cloudstorage.model.Credential;
-import com.udacity.jwdnd.course1.cloudstorage.model.Note;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
@@ -45,6 +44,13 @@ public class CredentialService {
       { e.printStackTrace();
       }
       return null;
+   }
+
+   public boolean usernameAvailable(String username){
+      List<Credential> credentialList = credentialMapper.usernameAvailable(username);
+      System.out.println("credentialList: "+credentialList);
+      System.out.println("credentialList (all): "+credentialMapper.getCredential());
+      return credentialList.isEmpty();
    }
 
    public String getDecryptedPassword(Credential credential){

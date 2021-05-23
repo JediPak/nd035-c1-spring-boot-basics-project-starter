@@ -80,7 +80,7 @@ public class CredentialController {
       String c_url = credential.getUrl();
       String c_username = credential.getUsername();
       String c_password = credential.getPassword();
-
+      //UrlValidator urlValidator = new UrlValidator(schemes);
       //Credential credential = new Credential(null, filename, contenttype, filesize, userid, fis);
       System.out.println("credential: " +credential.toString());
 
@@ -89,8 +89,16 @@ public class CredentialController {
          try {
             //setting userid for the newly created note, since it shouldn't be defined yet
             credential.setUserid(userid);
+
             status = credentialService.createCredential(credential);
-            if (status > 0) {
+            /*boolean usernameAvailable = credentialService.usernameAvailable(username);
+            System.out.println("usernameAvailable: "+usernameAvailable);
+            if (!usernameAvailable){
+               System.out.println("credential already exists");
+               model.addAttribute("successfulChange", false);
+               model.addAttribute("errorMsg", "Error: creating credential was not successful.(Username is already in use)");
+            }
+            else*/ if (/*usernameAvailable &&*/ status > 0 /*&& urlValidator.isValid()*/) {
                System.out.println("credential created (successful): " + credential.toString());
                model.addAttribute("successfulChange", true);
                model.addAttribute("successMsg", "Success: creating credential was successful.");

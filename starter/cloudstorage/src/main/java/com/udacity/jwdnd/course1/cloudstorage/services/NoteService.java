@@ -44,4 +44,11 @@ public class NoteService {
       return noteList;
    }
 
+   public boolean titleAvailable(String notetitle){
+      List<Note> noteList = noteMapper.alreadyExist(notetitle);
+      System.out.println("noteList: "+noteList);
+      System.out.println("noteList (all): "+noteMapper.getNote());
+      return noteList.isEmpty();
+   }
+
 }

@@ -1,6 +1,5 @@
 package com.udacity.jwdnd.course1.cloudstorage.controller;
 
-import com.udacity.jwdnd.course1.cloudstorage.model.Credential;
 import com.udacity.jwdnd.course1.cloudstorage.model.Note;
 import com.udacity.jwdnd.course1.cloudstorage.services.*;
 import org.springframework.security.core.Authentication;
@@ -82,7 +81,15 @@ public class NoteController {
             //setting userid for the newly created note, since it shouldnt be defined yet
             note.setUserid(userid);
             status = noteService.createNote(note);
-            if (status > 0) {
+            String notetitle = note.getNotetitle();
+            //checking if note notetitle already exists
+            /*boolean titleAvailable = noteService.titleAvailable(notetitle);
+            if(!titleAvailable){
+               System.out.println("note already exists by notetitle");
+               model.addAttribute("successfulChange", false);
+               model.addAttribute("errorMsg", "Error: creating note was not successful.(Title is already being used)");
+            }
+            else */if (/*titleAvailable &&*/ status > 0) {
                System.out.println("note created (successful): " + note.toString());
                model.addAttribute("successfulChange", true);
                model.addAttribute("successMsg", "Success: creating note was successful.");

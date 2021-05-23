@@ -88,6 +88,6 @@ public class SignupPageObject {
    }
 
    public boolean atSignupPage(){
-      return title.getText().equals("Sign Up");
+      return title.getAttribute("innerHTML").equals("Sign Up");
    }
 }

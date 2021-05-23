@@ -54,7 +54,7 @@ public class LoginPageObject {
    }
 
    public boolean atLoginPage(){
-      return title.getText().equals("Login");
+      return title.getAttribute("innerHTML").equals("Login");
    }
 
 }

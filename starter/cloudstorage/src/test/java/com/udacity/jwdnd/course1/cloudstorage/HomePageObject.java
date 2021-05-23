@@ -134,8 +134,8 @@ public class HomePageObject {
       //length of noteTitleView and noteDescriptionView should be equal
       for(int i = 0 ; i < noteTitleView.size() ; i ++){
          List<String> viewNote = new ArrayList <>();
-         title = noteTitleView.get(i).getText();
-         description = noteDescriptionView.get(i).getText();
+         title = noteTitleView.get(i).getAttribute("innerHTML");
+         description = noteDescriptionView.get(i).getAttribute("innerHTML");
          viewNote.add(title);
          System.out.println("viewNote (title): "+viewNote.toString());
          viewNote.add(description);
@@ -175,9 +175,9 @@ public class HomePageObject {
       System.out.println("credentialUrlView.size(): "+credentialUrlView.size());
       for(int i = 0 ; i < credentialUrlView.size() ; i ++){
          List<String> viewCredential = new ArrayList <>();
-         viewCredential.add(credentialUrlView.get(i).getText());
-         viewCredential.add(credentialUsernameView.get(i).getText());
-         viewCredential.add(credentialPasswordView.get(i).getText());
+         viewCredential.add(credentialUrlView.get(i).getAttribute("innerHTML"));
+         viewCredential.add(credentialUsernameView.get(i).getAttribute("innerHTML"));
+         viewCredential.add(credentialPasswordView.get(i).getAttribute("innerHTML"));
          viewCredentials.add(viewCredential);
       }
       return viewCredentials;

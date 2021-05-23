@@ -21,7 +21,13 @@
             <div id="contentDiv" style="clear: right;">
                 <nav style="clear: right;">
                     <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                        <!--
+                        this code is setting the code to first redirect to the file tab
+                        took out active and the user the first time they enter home.html will be redirected to the Files tab,
+                        we will do this programmatically a in the else of the function at the bottom of this file
                         <a class="nav-item nav-link active" id="nav-files-tab" data-toggle="tab" href="#nav-files" role="tab" aria-controls="nav-files" aria-selected="true">Files</a>
+                        -->
+                        <a class="nav-item nav-link" id="nav-files-tab" data-toggle="tab" href="#nav-files" role="tab" aria-controls="nav-files" aria-selected="true">Files</a>
                         <a class="nav-item nav-link" id="nav-notes-tab" data-toggle="tab" href="#nav-notes" role="tab" aria-controls="nav-notes" aria-selected="false">Notes</a>
                         <a class="nav-item nav-link" id="nav-credentials-tab" data-toggle="tab" href="#nav-credentials" role="tab" aria-controls="nav-credentials" aria-selected="false">Credentials</a>
                     </div>
@@ -267,6 +273,10 @@
             var activeTab = localStorage.getItem('activeTab');
             if(activeTab){
 	            $('.nav-tabs a[href="' + activeTab + '"]').tab('show');
+            } else {
+            //took out active in the files tab, now it's going to programatically nav to files initially
+            //from this else stmt
+                $('.nav-tabs a[href="' + '#nav-files' + '"]').tab('show');
             }
 
 

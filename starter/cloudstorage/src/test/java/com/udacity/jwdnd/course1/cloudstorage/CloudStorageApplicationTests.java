@@ -124,7 +124,7 @@ class CloudStorageApplicationTests {
 	********************************************
 	 */
 
-	/*
+
 	//1
 	// Write a Selenium test that logs in an existing user,
 	// creates a note and verifies that the note details are visible in the note list.
@@ -266,7 +266,7 @@ class CloudStorageApplicationTests {
 		assertTrue(viewNote.get(0).get(1).equals(description));
 
 	}
-*/
+
 	//3
 	// Write a Selenium test that logs in an existing user with existing notes,
 	// clicks the delete note button on an existing note,
@@ -370,7 +370,7 @@ class CloudStorageApplicationTests {
 	 ********************************************
 	 */
 
-	/*
+
 	//1
 	// Write a Selenium test that logs in an existing user,
 	// creates a credential and verifies that the credential details are visible in the credential list.
@@ -514,7 +514,7 @@ class CloudStorageApplicationTests {
 
 
 	}
-*/
+
 	//3
 	// Write a Selenium test that logs in an existing user with existing credentials,
 	// clicks the delete credential button on an existing credential,

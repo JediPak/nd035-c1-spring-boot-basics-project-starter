@@ -22,7 +22,7 @@ public class ResultPageObject {
    }
 
    public String getResultMsg(){
-      return resultMsg.getText();
+      return resultMsg.getAttribute("innerHTML");
    }
 
    public void continueToHome(){
